@@ -13,10 +13,8 @@ import com.github.britooo.looca.api.group.servicos.ServicosGroup;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import static java.awt.SystemColor.window;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+
+import javax.swing.*;
 
 /**
  *
@@ -65,46 +63,46 @@ public class DataColectorScreen extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(166, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblSenha)
-                        .addGap(175, 175, 175))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                            .addComponent(txtEmail))
-                        .addGap(149, 149, 149))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(160, 160, 160))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblEmail)
-                        .addGap(173, 173, 173))))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(166, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(lblSenha)
+                                                .addGap(175, 175, 175))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                                                        .addComponent(txtEmail))
+                                                .addGap(149, 149, 149))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(160, 160, 160))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(lblEmail)
+                                                .addGap(173, 173, 173))))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addComponent(lblEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblSenha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(btnLogin)
-                .addContainerGap(73, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addComponent(lblEmail)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblSenha)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(btnLogin)
+                                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
-        
+
         Looca looca = new Looca();
         Sistema sistema = new Sistema();
         Memoria memoria = new Memoria();
@@ -113,37 +111,37 @@ public class DataColectorScreen extends javax.swing.JFrame {
         DiscosGroup grupoDeDiscos = new DiscosGroup();
         ServicosGroup grupoDeServicos = new ServicosGroup();
         ProcessosGroup grupoDeProcessos = new ProcessosGroup();
-        
-        JTextArea textArea = new JTextArea(10, 20); 
+
+        JLabel textArea = new JLabel();
+
         JFrame window = new JFrame("Informações do sistema");
-        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMaximum());
+        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
+        scroll.setAutoscrolls(false);
         scroll.getMinimumSize();
-        
+
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
-        
-        
-        
-        String info = 
-                "Informações do sistema: " + sistema + "\n" +
-                "Total de processos: " + grupoDeProcessos.getTotalProcessos() + "\n" +
-                "CPU: " + processador + "\n" +
-                "Memória em uso: " + memoria.getEmUso() + "\n" +
-                "Memória disponível: " + memoria.getDisponivel() + "\n" +
-                "Qtd. de discos: " + grupoDeDiscos.getQuantidadeDeDiscos() + "\n" +
-                "Discos: " + grupoDeDiscos.getDiscos() + "\n" +
-                "Volumes: " + grupoDeDiscos.getVolumes() + "\n" +
-                "Tamanho total dos discos: " + grupoDeDiscos.getTamanhoTotal();
-        
+
+        String info
+                = "<html><p style='width: 100px; color: red'>Informações do sistema: " + sistema + "\n"
+                + "Total de processos: " + grupoDeProcessos.getTotalProcessos() + "\n"
+                + "CPU: " + processador + "\n"
+                + "Memória em uso: " + memoria.getEmUso() + "\n"
+                + "Memória disponível: " + memoria.getDisponivel() + "\n"
+                + "Qtd. de discos: " + grupoDeDiscos.getQuantidadeDeDiscos() + "\n"
+                + "Discos: " + grupoDeDiscos.getDiscos() + "\n"
+                + "Volumes: " + grupoDeDiscos.getVolumes() + "\n"
+                + "Tamanho total dos discos: " + grupoDeDiscos.getTamanhoTotal()
+                + "</p></html>";
+
         textArea.setText(info);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
         window.add(scroll);
         window.setSize(500, 500);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-    }                                        
+
+    }
 
     /**
      * @param args the command line arguments
