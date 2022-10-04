@@ -119,8 +119,10 @@ public class DataColectorScreen extends javax.swing.JFrame {
         JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMaximum());
         scroll.getMinimumSize();
+        
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
+        
         
         
         String info = 
