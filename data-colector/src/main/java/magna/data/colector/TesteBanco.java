@@ -45,7 +45,7 @@ public class TesteBanco {
         banco.update("INSERT INTO Empresa(nome_empresa) values('teste')");
 
         List response = banco.queryForList("SELECT * from Empresa");
-        
+
         System.out.println(response);
     }
 }
