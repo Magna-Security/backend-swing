@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Usuario(
     primero_acesso tinyint
 );
 
-CREATE TABLE Servidor(
+CREATE TABLE IF NOT EXISTS Servidor(
     id_servidor int primary key auto_increment,
     fk_empresa int,
     foreign key(fk_empresa) references Empresa(id_empresa),
@@ -31,7 +31,7 @@ CREATE TABLE Servidor(
     max_utilizacao_ram double
 );
 
-CREATE TABLE RegistroServer(
+CREATE TABLE IF NOT EXISTS RegistroServer(
     id_dado int primary key auto_increment,
     fk_servidor int,
     foreign key(fk_servidor) references Servidor(fk_servidor),

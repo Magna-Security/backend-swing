@@ -19,7 +19,7 @@ public class Connector {
 
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-        dataSource.setUrl("jdbc:mysql://localhost:3306/teste");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/magna");
 
         dataSource.setUsername("root");
 
