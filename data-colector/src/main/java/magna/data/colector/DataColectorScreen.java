@@ -102,44 +102,20 @@ public class DataColectorScreen extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
+     PosLogin frame = new PosLogin();
 
-        Looca looca = new Looca();
-        Sistema sistema = new Sistema();
-        Memoria memoria = new Memoria();
-        Processador processador = new Processador();
-        Temperatura temperatura = new Temperatura();
-        DiscosGroup grupoDeDiscos = new DiscosGroup();
-        ServicosGroup grupoDeServicos = new ServicosGroup();
-        ProcessosGroup grupoDeProcessos = new ProcessosGroup();
+     
+     
 
-        JLabel textArea = new JLabel();
-
-        JFrame window = new JFrame("Informações do sistema");
-        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
-        scroll.setAutoscrolls(false);
-        scroll.getMinimumSize();
-
+        
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
+        
+        frame.setVisible(true);     
+        this.setVisible(false);
 
-        String info
-                = "<html><p style='width: 100px; color: red'>Informações do sistema: " + sistema + "\n"
-                + "Total de processos: " + grupoDeProcessos.getTotalProcessos() + "\n"
-                + "CPU: " + processador + "\n"
-                + "Memória em uso: " + memoria.getEmUso() + "\n"
-                + "Memória disponível: " + memoria.getDisponivel() + "\n"
-                + "Qtd. de discos: " + grupoDeDiscos.getQuantidadeDeDiscos() + "\n"
-                + "Discos: " + grupoDeDiscos.getDiscos() + "\n"
-                + "Volumes: " + grupoDeDiscos.getVolumes() + "\n"
-                + "Tamanho total dos discos: " + grupoDeDiscos.getTamanhoTotal()
-                + "</p></html>";
-
-        textArea.setText(info);
-        window.add(scroll);
-        window.setSize(500, 500);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
+        
+        
 
     }
 
