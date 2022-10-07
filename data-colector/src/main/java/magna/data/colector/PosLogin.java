@@ -174,11 +174,12 @@ private Integer escolha = 0;
 
 
         String info
-                = "<html><p style='width: 300px; color: red'>Informações do sistema: " + sistema.getSistemaOperacional() + "<br> <br>" 
-                + "CPU: " + processador.getUso() + "<br> <br>"
-                + "Memória disponível: " + memoria.getDisponivel() + "<br><br>"
-                + "Memória em uso: " + memoria.getEmUso() + "<br><br>"
-                + "Total de processos: " + grupoDeProcessos.getTotalProcessos() + "<br><br>"
+                
+                = "<html><p style='width: 300px;'> <b>Informações do sistema:</b> " + sistema.getSistemaOperacional() + " x" +  sistema.getArquitetura() + "<br> <br>"
+                + "<b>Informações do hardware: </b>" + "<br>" + "Ram Total: " + memoria.getTotal() + "<br>"  + "Informações processador <br>" +"Frequencia processador: " + processador.getFrequencia() + " <br>Quantidade Cpus fisicas :" + processador.getNumeroCpusFisicas() + "<br>HardDisk: " + grupoDeDiscos.getTamanhoTotal()  + "<br> <br>"
+                + "<b>CPU: </b>" + processador.getUso() + "<br> <br>"
+                + "<b>Memória em uso: </b>" + memoria.getEmUso() + "<br><br>"
+                + "<b>Total de processos: </b>" + grupoDeProcessos.getTotalProcessos() + "<br><br>"
                 + "</p></html>";
         
 
