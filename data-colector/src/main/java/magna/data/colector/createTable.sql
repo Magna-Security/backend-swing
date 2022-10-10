@@ -1,12 +1,12 @@
 -- MySQL
-CREATE TABLE IF NOT EXISTS Empresa(
+CREATE TABLE Empresa(
     id_empresa int primary key auto_increment,
     nome_empresa varchar(50),
     CNPJ char(14),
     telefone varchar(20)
 );
 
-CREATE TABLE IF NOT EXISTS Usuario(
+CREATE TABLE Usuario(
     id_usuario int primary key auto_increment,
     fk_empresa int,
     foreign key (fk_empresa) references Empresa(id_empresa),
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Usuario(
     primero_acesso tinyint
 );
 
-CREATE TABLE IF NOT EXISTS Servidor(
+CREATE TABLE Servidor(
     id_servidor int primary key auto_increment,
     fk_empresa int,
     foreign key(fk_empresa) references Empresa(id_empresa),
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Servidor(
     max_utilizacao_ram double
 );
 
-CREATE TABLE IF NOT EXISTS RegistroServer(
+CREATE TABLE RegistroServer(
     id_dado int primary key auto_increment,
     fk_servidor int,
     foreign key(fk_servidor) references Servidor(fk_servidor),

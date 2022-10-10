@@ -13,8 +13,9 @@ import com.github.britooo.looca.api.group.servicos.ServicosGroup;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import static java.awt.SystemColor.window;
-
+import java.util.List;
 import javax.swing.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
@@ -102,21 +103,21 @@ public class DataColectorScreen extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
-     PosLogin frame = new PosLogin();
-
-     
-     
-
+        Connector con = new Connector();
+        JdbcTemplate banco = con.getConnection();
         
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
+                
+        List response = banco.queryForList("SELECT * from UsuarioSwing WHERE email = '" + email + "' and senha = '" + senha + "'");
         
-        frame.setVisible(true);     
-        this.setVisible(false);
-
-        
-        
-
+        if (response.size() > 0) {
+            PosLogin frame = new PosLogin();
+            frame.setVisible(true);     
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Email ou usuário inválidos.");
+        }   
     }
 
     /**

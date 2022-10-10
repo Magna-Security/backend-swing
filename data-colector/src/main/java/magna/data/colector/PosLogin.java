@@ -16,6 +16,12 @@ import com.github.britooo.looca.api.group.servicos.ServicosGroup;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import static java.awt.SystemColor.window;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
@@ -40,40 +46,32 @@ private Integer escolha = 0;
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnEncerrar = new javax.swing.JButton();
+        btnIniciar = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Magna Security");
 
-        jButton1.setText("Iniciar ");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEncerrar.setText("Encerrar");
+        btnEncerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEncerrarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Encerrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciar.setText("Iniciar");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnIniciarActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Verificar dados atuais");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Sair");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnSairActionPerformed(evt);
             }
         });
 
@@ -82,61 +80,36 @@ private Integer escolha = 0;
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addContainerGap())
+                .addGap(134, 134, 134)
+                .addComponent(btnIniciar)
+                .addGap(18, 18, 18)
+                .addComponent(btnEncerrar)
+                .addGap(0, 132, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(jButton1)
-                .addGap(69, 69, 69)
-                .addComponent(jButton2)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(160, 160, 160)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
-                .addComponent(jButton4))
+                .addGap(100, 100, 100)
+                .addComponent(btnSair))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
-                .addGap(101, 101, 101)
+                    .addComponent(btnSair))
+                .addGap(109, 109, 109)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addContainerGap())
+                    .addComponent(btnIniciar)
+                    .addComponent(btnEncerrar))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncerrarActionPerformed
         // TODO add your handling code here:
         JLabel textAreaP = new JLabel();
-
-        JFrame window = new JFrame("Informações do sistema");
-        JScrollPane scroll = new JScrollPane(textAreaP, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
-        scroll.setAutoscrolls(false);
-        scroll.getMinimumSize();
-        
-        String processoI = "<html><p style='width: 175px; color: red; text-align: center'> Processo iniciado</p></html>";
-        
-        textAreaP.setText(processoI);
-        window.setSize(250, 250);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        window.add(scroll);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-          JLabel textAreaP = new JLabel();
 
         JFrame window = new JFrame("Informações do sistema");
         JScrollPane scroll = new JScrollPane(textAreaP, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -152,10 +125,16 @@ private Integer escolha = 0;
         window.setLocationRelativeTo(null);
         window.add(scroll);
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnEncerrarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         // TODO add your handling code here:
+        Connector con = new Connector();
+        JdbcTemplate banco = con.getConnection();
+        
+        Date date = new Date();
+        SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        
         Looca looca = new Looca();
         Sistema sistema = new Sistema();
         Memoria memoria = new Memoria();
@@ -171,30 +150,68 @@ private Integer escolha = 0;
         scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
         scroll.setAutoscrolls(false);
         scroll.getMinimumSize();
-
-
-        String info
-                
-                = "<html><p style='width: 300px;'> <b>Informações do sistema:</b> " + sistema.getSistemaOperacional() + " x" +  sistema.getArquitetura() + "<br> <br>"
-                + "<b>Informações do hardware: </b>" + "<br>" + "Ram Total: " + memoria.getTotal() + "<br>"  + "Informações processador <br>" +"Frequencia processador: " + processador.getFrequencia() + " <br>Quantidade Cpus fisicas :" + processador.getNumeroCpusFisicas() + "<br>HardDisk: " + grupoDeDiscos.getTamanhoTotal()  + "<br> <br>"
-                + "Processos em tempo real: <br> "
-                + "<b>CPU: </b>" + processador.getUso() + "<br> <"
-                + "<b>Memória em uso: </b>" + memoria.getEmUso() + "<br>"
-                + "<b>Total de processos: </b>" + grupoDeProcessos.getTotalProcessos() + "<br>"
-                + "</p></html>";
+        String info;
         
-
-        textArea.setText(info);
         window.add(scroll);
         window.setSize(500, 500);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        
+//        Integer i = 1;
+        
+//        do {
+            String SO = sistema.getSistemaOperacional();
+            Integer arquitetura = sistema.getArquitetura();
+            Long totalRam = memoria.getTotal();
+            Long frequenciaProcessador = processador.getFrequencia();
+            Integer qtdCpusFisicas = processador.getNumeroCpusFisicas(); 
+            Long tamanhoTotalDiscos = grupoDeDiscos.getTamanhoTotal() ;
+            Double usoProcessador = processador.getUso();
+            Long usoMemoria = memoria.getEmUso();
+            Integer totalProcessos = grupoDeProcessos.getTotalProcessos();
+            
+            
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+            info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + arquitetura.toString() 
+                + "<br><br>"
+                + "<b>Informações do hardware:</b>" 
+                + "<br>" 
+                + "RAM total: " + totalRam.toString()
+                + "<br>"  
+                + "Informações processador <br>" 
+                + "Frequência do processador: " + frequenciaProcessador.toString()
+                + "<br>" 
+                + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
+                + "<br>" 
+                + "HardDisk: " + tamanhoTotalDiscos
+                + "<br><br>"
+                + "Processos em tempo real: <br> "
+                + "<b>CPU: </b>" + String.format("%.2f", usoProcessador) + "<br>"
+                + "<b>Memória em uso: </b>" + usoMemoria.toString() + "<br>"
+                + "<b>Total de processos: </b>" + totalProcessos.toString()
+                + "<br>"
+                + "</p></html>";
+            
+            String dataFormatada = momento.format(date);
+            JOptionPane.showMessageDialog(this, dataFormatada);
+
+            banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, ram_em_uso, disco_em_uso, processador_em_uso, data_registro) values(1, %d, %d, %.2f, '%s')", 
+                    usoMemoria,
+                    tamanhoTotalDiscos,
+                    usoProcessador,
+                    dataFormatada.toString()));
+            
+            textArea.setText(info);
+//            i++;
+
+//        } 
+//        while (i <= 10);
+    }//GEN-LAST:event_btnIniciarActionPerformed
+    
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,10 +249,9 @@ private Integer escolha = 0;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnEncerrar;
+    private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
