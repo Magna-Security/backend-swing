@@ -33,6 +33,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class PosLogin extends javax.swing.JFrame {
 
     private Integer escolha = 0;
+    
+    Looca looca = new Looca();
+    Sistema sistema = new Sistema();
+    Memoria memoria = new Memoria();
+    Processador processador = new Processador();
+    Temperatura temperatura = new Temperatura();
+    DiscosGroup grupoDeDiscos = new DiscosGroup();
+    ServicosGroup grupoDeServicos = new ServicosGroup();
+    ProcessosGroup grupoDeProcessos = new ProcessosGroup();
 
     /**
      * Creates new form PosLogin
@@ -54,7 +63,7 @@ public class PosLogin extends javax.swing.JFrame {
         btnEncerrar = new javax.swing.JButton();
         btnIniciar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnVerificarDados = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,10 +90,10 @@ public class PosLogin extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Verificar dados atuais");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnVerificarDados.setText("Verificar dados atuais");
+        btnVerificarDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnVerificarDadosActionPerformed(evt);
             }
         });
 
@@ -106,7 +115,7 @@ public class PosLogin extends javax.swing.JFrame {
                         .addGap(100, 100, 100)
                         .addComponent(btnSair))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnVerificarDados)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -120,7 +129,7 @@ public class PosLogin extends javax.swing.JFrame {
                     .addComponent(btnIniciar)
                     .addComponent(btnEncerrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnVerificarDados)
                 .addContainerGap())
         );
 
@@ -155,30 +164,6 @@ public class PosLogin extends javax.swing.JFrame {
         Date date = new Date();
         SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Looca looca = new Looca();
-        Sistema sistema = new Sistema();
-        Memoria memoria = new Memoria();
-        Processador processador = new Processador();
-        Temperatura temperatura = new Temperatura();
-        DiscosGroup grupoDeDiscos = new DiscosGroup();
-        ServicosGroup grupoDeServicos = new ServicosGroup();
-        ProcessosGroup grupoDeProcessos = new ProcessosGroup();
-        JLabel textArea = new JLabel();
-
-        JFrame window = new JFrame("Informações do sistema");
-        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
-        scroll.setAutoscrolls(false);
-        scroll.getMinimumSize();
-        String info;
-
-        window.add(scroll);
-        window.setSize(500, 500);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-
-//        Integer i = 1;
-//        do {
         String SO = sistema.getSistemaOperacional();
         Integer arquitetura = sistema.getArquitetura();
         Long totalRam = memoria.getTotal();
@@ -188,26 +173,6 @@ public class PosLogin extends javax.swing.JFrame {
         Double usoProcessador = processador.getUso();
         Long usoMemoria = memoria.getEmUso();
         Integer totalProcessos = grupoDeProcessos.getTotalProcessos();
-
-        info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + arquitetura.toString()
-                + "<br><br>"
-                + "<b>Informações do hardware:</b>"
-                + "<br>"
-                + "RAM total: " + totalRam.toString()
-                + "<br>"
-                + "Informações processador <br>"
-                + "Frequência do processador: " + frequenciaProcessador.toString()
-                + "<br>"
-                + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
-                + "<br>"
-                + "HardDisk: " + tamanhoTotalDiscos
-                + "<br><br>"
-                + "Processos em tempo real: <br> "
-                + "<b>CPU: </b>" + String.format("%.2f", usoProcessador) + "<br>"
-                + "<b>Memória em uso: </b>" + usoMemoria.toString() + "<br>"
-                + "<b>Total de processos: </b>" + totalProcessos.toString()
-                + "<br>"
-                + "</p></html>";
 
         String dataFormatada = momento.format(date);
         JOptionPane.showMessageDialog(this, dataFormatada);
@@ -216,13 +181,10 @@ public class PosLogin extends javax.swing.JFrame {
                 usoMemoria,
                 tamanhoTotalDiscos,
                 usoProcessador,
-                dataFormatada.toString()));
-
-        textArea.setText(info);
-//            i++;
-
-//        } 
-//        while (i <= 10);
+                dataFormatada.toString())
+        );
+        
+        
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -230,66 +192,12 @@ public class PosLogin extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnVerificarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarDadosActionPerformed
         // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnVerificarDadosActionPerformed
 
-        Looca looca = new Looca();
-        Sistema sistema = new Sistema();
-        Memoria memoria = new Memoria();
-        Processador processador = new Processador();
-        Temperatura temperatura = new Temperatura();
-        DiscosGroup grupoDeDiscos = new DiscosGroup();
-        ServicosGroup grupoDeServicos = new ServicosGroup();
-        ProcessosGroup grupoDeProcessos = new ProcessosGroup();
-        JLabel textArea = new JLabel();
-
-        JFrame window = new JFrame("Informações do sistema");
-        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
-        scroll.setAutoscrolls(false);
-        scroll.getMinimumSize();
-        String info = "";
-
-        window.add(scroll);
-        window.setSize(500, 500);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-
-
-        String SO = sistema.getSistemaOperacional();
-        Integer arquitetura = sistema.getArquitetura();
-        Long totalRam = memoria.getTotal();
-        Long frequenciaProcessador = processador.getFrequencia();
-        Integer qtdCpusFisicas = processador.getNumeroCpusFisicas();
-        Long tamanhoTotalDiscos = grupoDeDiscos.getTamanhoTotal();
-        Double usoProcessador = processador.getUso();
-        Long usoMemoria = memoria.getEmUso();
-        Integer totalProcessos = grupoDeProcessos.getTotalProcessos();
-
-        info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + arquitetura.toString()
-                + "<br><br>"
-                + "<b>Informações do hardware:</b>"
-                + "<br>"
-                + "RAM total: " + totalRam.toString()
-                + "<br>"
-                + "Informações processador <br>"
-                + "Frequência do processador: " + frequenciaProcessador.toString()
-                + "<br>"
-                + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
-                + "<br>"
-                + "HardDisk: " + tamanhoTotalDiscos
-                + "<br><br>"
-                + "Processos em tempo real: <br> "
-                + "<b>CPU: </b>" + String.format("%.2f", usoProcessador) + "<br>"
-                + "<b>Memória em uso: </b>" + usoMemoria.toString() + "<br>"
-                + "<b>Total de processos: </b>" + totalProcessos.toString()
-                + "<br>"
-                + "</p></html>";
-
-                textArea.setText(info);
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -329,7 +237,7 @@ public class PosLogin extends javax.swing.JFrame {
     private javax.swing.JButton btnEncerrar;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnSair;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnVerificarDados;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
