@@ -57,7 +57,7 @@ public class PosLogin extends javax.swing.JFrame {
     Long frequenciaProcessador = processador.getFrequencia();
     Integer qtdCpusFisicas = processador.getNumeroCpusFisicas();
     Integer qtdCpusLogicas = processador.getNumeroCpusLogicas();
-    Long tamanhoTotalDiscos = null;
+    Long tamanhoTotalDiscos = grupoDeDiscos.getTamanhoTotal();
     List<Long> qtdDiscoEmUso = new ArrayList<Long>();
     List<Long> qtdTotalCadaDisco = new ArrayList<Long>();
     Double cpuEmUso = null;
@@ -191,8 +191,6 @@ public class PosLogin extends javax.swing.JFrame {
         window.setSize(500, 500);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-
-        
         
         Connector con = new Connector();
         JdbcTemplate banco = con.getConnection();
@@ -240,7 +238,7 @@ public class PosLogin extends javax.swing.JFrame {
                         + "<br>"
                         + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
                         + "<br>"
-                        + "HardDisk: " + tamanhoTotalDiscos
+                        + "HardDisk: " + grupoDeDiscos.getTamanhoTotal().floatValue()
                         + "<br><br>"
                         + "Processos em tempo real: <br> "
                         + "<b>CPU: </b>" + String.format("%.2f", cpuEmUso) + "<br>"
@@ -275,27 +273,37 @@ public class PosLogin extends javax.swing.JFrame {
         window.setSize(500, 500);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-
-        info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + arquitetura.toString()
-                + "<br><br>"
-                + "<b>Informações do hardware:</b>"
-                + "<br>"
-                + "RAM total: " + qtdTotalRam.toString()
-                + "<br>"
-                + "Informações processador <br>"
-                + "Frequência do processador: " + frequenciaProcessador.toString()
-                + "<br>"
-                + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
-                + "<br>"
-                + "HardDisk: " + tamanhoTotalDiscos
-                + "<br><br>"
-                + "Processos em tempo real: <br> "
-                + "<b>CPU: </b>" + String.format("%.2f", cpuEmUso) + "<br>"
-                + "<b>Memória em uso: </b>" + ramEmUso.toString() + "<br>"
-                + "<b>Total de processos: </b>" + qtdProcessos.toString()
-                + "<br>"
-                + "</p></html>";
-        textArea.setText(info);
+        
+        qtdProcessos = grupoDeProcessos.getTotalProcessos();
+        qtdThreads = grupoDeProcessos.getTotalThreads();
+        cpuEmUso = processador.getUso();
+        ramEmUso = memoria.getEmUso();
+        
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + sistema.getArquitetura().toString()
+                    + "<br><br>"
+                    + "<b>Informações do hardware:</b>"
+                    + "<br>"
+                    + "RAM total: " + memoria.getTotal().toString()
+                    + "<br>"
+                    + "Informações processador <br>"
+                    + "Frequência do processador: " + String.format("%.2f", Double.valueOf(processador.getFrequencia().toString()))
+                    + "<br>"
+                    + "Quantidade CPUs físicas: " + processador.getNumeroCpusFisicas().toString()
+                    + "<br>"
+                    + "HardDisk: " + grupoDeDiscos.getTamanhoTotal() + " bytes"
+                    + "<br><br>"
+                    + "Processos em tempo real: <br> "
+                    + "<b>CPU: </b>" + String.format("%.2f", processador.getUso()) + "<br>"
+                    + "<b>Memória em uso: </b>" + memoria.getEmUso().toString() + "<br>"
+                    + "<b>Total de processos: </b>" + grupoDeProcessos.getTotalProcessos().toString()
+                    + "<br>"
+                    + "</p></html>";
+                textArea.setText(info);
+            }
+        }, 0, 1000);
     }//GEN-LAST:event_btnVerificarDadosActionPerformed
 
   

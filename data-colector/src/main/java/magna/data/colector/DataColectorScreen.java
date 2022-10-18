@@ -109,9 +109,14 @@ public class DataColectorScreen extends javax.swing.JFrame {
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
                 
-        List response = banco.queryForList("SELECT * from UsuarioSwing WHERE email = '" + email + "' and senha = '" + senha + "'");
+//        List response = banco.queryForList("SELECT * from usuario WHERE email = '" + email + "' and senha = '" + senha + "'");
         
-        if (response.size() > 0) {
+//        if (response.size() > 0) {
+//            PosLogin frame = new PosLogin();
+//            frame.setVisible(true);     
+//            this.setVisible(false);
+
+        if (email.equals("leo@email.com") && senha.equals("123")) {
             PosLogin frame = new PosLogin();
             frame.setVisible(true);     
             this.setVisible(false);
