@@ -198,63 +198,61 @@ public class PosLogin extends javax.swing.JFrame {
         Date date = new Date();
         SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
-        for (Integer i = 0; i != 1; i = 0) {
-            try {
-                TimeUnit.SECONDS.sleep(2);
-                if (encerrarIsClicked) break;
-                
-                qtdProcessos = grupoDeProcessos.getTotalProcessos();
-                qtdThreads = grupoDeProcessos.getTotalThreads();
-                cpuEmUso = processador.getUso();
-                ramEmUso = memoria.getEmUso();
-                
-                for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
-                    qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getDisponivel());
-                }
+//        if (encerrarIsClicked) break;
 
-                dataFormatada = momento.format(date);
-                
-                DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
+        qtdProcessos = grupoDeProcessos.getTotalProcessos();
+        qtdThreads = grupoDeProcessos.getTotalThreads();
+        cpuEmUso = processador.getUso();
+        ramEmUso = memoria.getEmUso();
 
-                banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, data_registro) values(1, %d, %d, %.2f, %d, %d, %d, %d, %d, '%s')",
-                        dados.getQtdProcessos(),
-                        dados.getQtdThreads(),
-                        dados.getUsoProcessador(),
-                        dados.getUsoMemoria(),
-                        dados.getQtdDiscoEmUso().get(0),
-                        dados.getQtdDiscoEmUso().get(1),
-                        dados.getQtdDiscoEmUso().get(2),
-                        dados.getQtdDiscoEmUso().get(3),
-                        dados.getDataAtual()));
-                
-                info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + arquitetura.toString()
-                        + "<br><br>"
-                        + "<b>Informações do hardware:</b>"
-                        + "<br>"
-                        + "RAM total: " + qtdTotalRam.toString()
-                        + "<br>"
-                        + "Informações processador <br>"
-                        + "Frequência do processador: " + frequenciaProcessador.toString()
-                        + "<br>"
-                        + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
-                        + "<br>"
-                        + "HardDisk: " + grupoDeDiscos.getTamanhoTotal().floatValue()
-                        + "<br><br>"
-                        + "Processos em tempo real: <br> "
-                        + "<b>CPU: </b>" + String.format("%.2f", cpuEmUso) + "<br>"
-                        + "<b>Memória em uso: </b>" + ramEmUso.toString() + "<br>"
-                        + "<b>Total de processos: </b>" + qtdProcessos.toString()
-                        + "<br>"
-                        + "</p></html>";
-                textArea.setText(info);
-                
-                SwingUtilities.updateComponentTreeUI(window);
-            } catch(Exception e) {
-                System.out.println("Ocorreu um erro: " + e);
-            }
+        for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
+            qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getDisponivel());
         }
 
+        dataFormatada = momento.format(date);
         
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
+
+                banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
+                dados.getQtdProcessos(),
+                dados.getQtdThreads(),
+                dados.getUsoProcessador().toString().replace(",", "."),
+                dados.getUsoMemoria(),
+                dados.getQtdDiscoEmUso().get(0),
+                grupoDeDiscos.getDiscos().size() > 1 ? dados.getQtdDiscoEmUso().get(1) : null,
+                grupoDeDiscos.getDiscos().size() > 2 ? dados.getQtdDiscoEmUso().get(2) : null,
+                grupoDeDiscos.getDiscos().size() > 3 ? dados.getQtdDiscoEmUso().get(3) : null,
+                dados.getDataAtual()));
+            }
+        },0, 5000);
+
+        
+
+//        info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + arquitetura.toString()
+//                + "<br><br>"
+//                + "<b>Informações do hardware:</b>"
+//                + "<br>"
+//                + "RAM total: " + qtdTotalRam.toString()
+//                + "<br>"
+//                + "Informações processador <br>"
+//                + "Frequência do processador: " + frequenciaProcessador.toString()
+//                + "<br>"
+//                + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
+//                + "<br>"
+//                + "HardDisk: " + grupoDeDiscos.getTamanhoTotal().floatValue()
+//                + "<br><br>"
+//                + "Processos em tempo real: <br> "
+//                + "<b>CPU: </b>" + String.format("%.2f", cpuEmUso) + "<br>"
+//                + "<b>Memória em uso: </b>" + ramEmUso.toString() + "<br>"
+//                + "<b>Total de processos: </b>" + qtdProcessos.toString()
+//                + "<br>"
+//                + "</p></html>";
+//        textArea.setText(info);
+
+//        SwingUtilities.updateComponentTreeUI(window);
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
