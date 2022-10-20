@@ -87,7 +87,6 @@ public class PosLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        btnEncerrar = new javax.swing.JButton();
         btnIniciar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnVerificarDados = new javax.swing.JButton();
@@ -96,13 +95,6 @@ public class PosLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Magna Security");
-
-        btnEncerrar.setText("Encerrar");
-        btnEncerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEncerrarActionPerformed(evt);
-            }
-        });
 
         btnIniciar.setText("Iniciar");
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
@@ -132,25 +124,22 @@ public class PosLogin extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addComponent(btnIniciar)
-                .addGap(18, 18, 18)
-                .addComponent(btnEncerrar)
-                .addGap(0, 132, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
+                .addComponent(txtIniciadoOuEncerrado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(100, 100, 100)
-                        .addComponent(btnSair))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnVerificarDados)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtIniciadoOuEncerrado)
-                        .addGap(192, 192, 192))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(100, 100, 100)
+                            .addComponent(btnSair))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btnVerificarDados)
+                            .addContainerGap()))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnIniciar)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,47 +147,27 @@ public class PosLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSair))
-                .addGap(109, 109, 109)
+                .addGap(95, 95, 95)
+                .addComponent(btnIniciar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnIniciar)
-                    .addComponent(btnEncerrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtIniciadoOuEncerrado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addComponent(btnVerificarDados)
+                    .addComponent(btnVerificarDados)
+                    .addComponent(txtIniciadoOuEncerrado))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncerrarActionPerformed
-        // TODO add your handling code here:
-        encerrarIsClicked = true;
-        txtIniciadoOuEncerrado.setText("Processo encerrado");
-    }//GEN-LAST:event_btnEncerrarActionPerformed
-
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         // TODO add your handling code here:
         encerrarIsClicked = false;
-        txtIniciadoOuEncerrado.setText("Coletando dados...");
         
-        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
-        scroll.setAutoscrolls(false);
-        scroll.getMinimumSize();
-        
-        window.add(scroll);
-        window.setSize(500, 500);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
+        txtIniciadoOuEncerrado.setText("Iniciando processo de coleta.");
+
         
         Connector con = new Connector();
         JdbcTemplate banco = con.getConnection();
-
-        Date date = new Date();
-        SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        
-//        if (encerrarIsClicked) break;
 
         qtdProcessos = grupoDeProcessos.getTotalProcessos();
         qtdThreads = grupoDeProcessos.getTotalThreads();
@@ -208,12 +177,17 @@ public class PosLogin extends javax.swing.JFrame {
         for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
             qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getDisponivel());
         }
-
-        dataFormatada = momento.format(date);
         
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                
+                System.out.println("Coletando dados...");
+
+                Date date = new Date();
+                SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                dataFormatada = momento.format(date);
+
                 DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
 
                 banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
@@ -342,7 +316,6 @@ public class PosLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEncerrar;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnVerificarDados;
