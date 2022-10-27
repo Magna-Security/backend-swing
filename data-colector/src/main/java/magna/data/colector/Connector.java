@@ -23,7 +23,7 @@ public class Connector {
 
         dataSource.setUsername("root");
 
-        dataSource.setPassword("trigo1102");
+        dataSource.setPassword("magna123");
 
         this.connection = new JdbcTemplate(dataSource);
     }
