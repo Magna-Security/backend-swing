@@ -13,8 +13,9 @@ import com.github.britooo.looca.api.group.servicos.ServicosGroup;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import static java.awt.SystemColor.window;
-
+import java.util.List;
 import javax.swing.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
@@ -102,45 +103,27 @@ public class DataColectorScreen extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
-
-        Looca looca = new Looca();
-        Sistema sistema = new Sistema();
-        Memoria memoria = new Memoria();
-        Processador processador = new Processador();
-        Temperatura temperatura = new Temperatura();
-        DiscosGroup grupoDeDiscos = new DiscosGroup();
-        ServicosGroup grupoDeServicos = new ServicosGroup();
-        ProcessosGroup grupoDeProcessos = new ProcessosGroup();
-
-        JLabel textArea = new JLabel();
-
-        JFrame window = new JFrame("Informações do sistema");
-        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
-        scroll.setAutoscrolls(false);
-        scroll.getMinimumSize();
-
+        Connector con = new Connector();
+        JdbcTemplate banco = con.getConnection();
+        
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
+             
+//        List response = banco.queryForList("SELECT * from usuario WHERE email = '" + email + "' and senha = '" + senha + "'");
 
-        String info
-                = "<html><p style='width: 100px; color: red'>Informações do sistema: " + sistema + "\n"
-                + "Total de processos: " + grupoDeProcessos.getTotalProcessos() + "\n"
-                + "CPU: " + processador + "\n"
-                + "Memória em uso: " + memoria.getEmUso() + "\n"
-                + "Memória disponível: " + memoria.getDisponivel() + "\n"
-                + "Qtd. de discos: " + grupoDeDiscos.getQuantidadeDeDiscos() + "\n"
-                + "Discos: " + grupoDeDiscos.getDiscos() + "\n"
-                + "Volumes: " + grupoDeDiscos.getVolumes() + "\n"
-                + "Tamanho total dos discos: " + grupoDeDiscos.getTamanhoTotal()
-                + "</p></html>";
+        
+//        if (response.size() > 0) {
+//            PosLogin frame = new PosLogin();
+//            frame.setVisible(true);     
+//            this.setVisible(false);
 
-        textArea.setText(info);
-        window.add(scroll);
-        window.setSize(500, 500);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-
+        if (email.equals("leo@email.com") && senha.equals("123")) {
+            PosLogin frame = new PosLogin();
+            frame.setVisible(true);     
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Email ou usuário inválidos.");
+        }   
     }
 
     /**

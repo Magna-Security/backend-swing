@@ -25,14 +25,27 @@ public class TesteBanco {
 //        Integer anoFilme = 2000;
 //
 //        banco.update(insert, nomeFilme, anoFilme);
+//
+//        List filmes = banco.queryForList("SELECT * FROM filme");
+//
+//        List<Filme> listaFilmes = banco.query("SELECT * FROM filme", new BeanPropertyRowMapper<>(Filme.class));
+//
+//        for (Filme item:
+//             listaFilmes) {
+//            System.out.println(item.toString());
+//        }
+//        banco.execute("CREATE TABLE Empresa(" +
+//                "    id_empresa int primary key auto_increment," +
+//                "    nome_empresa varchar(50)," +
+//                "    CNPJ char(14)," +
+//                "    telefone varchar(20)" +
+//                ");"
+//        );
+//
+        banco.update("INSERT INTO Empresa(nome_empresa) values('teste')");
 
-        List filmes = banco.queryForList("SELECT * FROM filme");
+        List response = banco.queryForList("SELECT * from Empresa");
 
-        List<Filme> listaFilmes = banco.query("SELECT * FROM filme", new BeanPropertyRowMapper<>(Filme.class));
-
-        for (Filme item:
-             listaFilmes) {
-            System.out.println(item.toString());
-        }
+        System.out.println(response);
     }
 }
