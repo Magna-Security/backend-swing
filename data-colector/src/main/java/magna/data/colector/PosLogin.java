@@ -202,32 +202,7 @@ public class PosLogin extends javax.swing.JFrame {
                 dados.getDataAtual()));
             }
         },0, 5000);
-
-        
-
-//        info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + arquitetura.toString()
-//                + "<br><br>"
-//                + "<b>Informações do hardware:</b>"
-//                + "<br>"
-//                + "RAM total: " + qtdTotalRam.toString()
-//                + "<br>"
-//                + "Informações processador <br>"
-//                + "Frequência do processador: " + frequenciaProcessador.toString()
-//                + "<br>"
-//                + "Quantidade CPUs físicas: " + qtdCpusFisicas.toString()
-//                + "<br>"
-//                + "HardDisk: " + grupoDeDiscos.getTamanhoTotal().floatValue()
-//                + "<br><br>"
-//                + "Processos em tempo real: <br> "
-//                + "<b>CPU: </b>" + String.format("%.2f", cpuEmUso) + "<br>"
-//                + "<b>Memória em uso: </b>" + ramEmUso.toString() + "<br>"
-//                + "<b>Total de processos: </b>" + qtdProcessos.toString()
-//                + "<br>"
-//                + "</p></html>";
-//        textArea.setText(info);
-
-//        SwingUtilities.updateComponentTreeUI(window);
-    }//GEN-LAST:event_btnIniciarActionPerformed
+    }
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
