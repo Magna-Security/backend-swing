@@ -17,6 +17,10 @@ import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import com.mysql.cj.log.Log;
 import static java.awt.SystemColor.window;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,11 +37,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
  *
  * @author AlfaUser
  */
-
 public class PosLogin extends javax.swing.JFrame {
 
     private Integer escolha = 0;
-    
+
     Looca looca = new Looca();
     Sistema sistema = new Sistema();
     Memoria memoria = new Memoria();
@@ -46,7 +49,7 @@ public class PosLogin extends javax.swing.JFrame {
     DiscosGroup grupoDeDiscos = new DiscosGroup();
     ServicosGroup grupoDeServicos = new ServicosGroup();
     ProcessosGroup grupoDeProcessos = new ProcessosGroup();
-    
+
     JLabel textArea = new JLabel();
     JFrame window = new JFrame("Informações do sistema");
     String info = "";
@@ -66,9 +69,9 @@ public class PosLogin extends javax.swing.JFrame {
     Integer qtdProcessos = null;
     Integer qtdThreads = null;
     String dataFormatada = "";
-    
+
     Boolean encerrarIsClicked = false;
-    
+
     /**
      * Creates new form PosLogin
      */
@@ -159,13 +162,14 @@ public class PosLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        System.out.println("ENTRANDO NO EVENTO BTN INICIAR");
         encerrarIsClicked = false;
-        
+        System.out.println("TESTE");
+
         txtIniciadoOuEncerrado.setText("Iniciando processo de coleta.");
 
-        
         Connector con = new Connector();
         JdbcTemplate banco = con.getConnection();
 
@@ -177,12 +181,12 @@ public class PosLogin extends javax.swing.JFrame {
         for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
             qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getDisponivel());
         }
-        
+
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                
-                System.out.println("Coletando dados...");
+
+                System.out.println("ENTRANDO NO MÉTODO RUN()...");
 
                 Date date = new Date();
                 SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -190,16 +194,25 @@ public class PosLogin extends javax.swing.JFrame {
 
                 DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
 
+                System.out.println("VAMOS INSERIR NO BANCO...");
+                
                 banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
-                dados.getQtdProcessos(),
-                dados.getQtdThreads(),
-                dados.getUsoProcessador().toString().replace(",", "."),
-                dados.getUsoMemoria(),
-                dados.getQtdDiscoEmUso().get(0),
-                grupoDeDiscos.getDiscos().size() > 1 ? dados.getQtdDiscoEmUso().get(1) : null,
-                grupoDeDiscos.getDiscos().size() > 2 ? dados.getQtdDiscoEmUso().get(2) : null,
-                grupoDeDiscos.getDiscos().size() > 3 ? dados.getQtdDiscoEmUso().get(3) : null,
-                dados.getDataAtual()));
+                        dados.getQtdProcessos(),
+                        dados.getQtdThreads(),
+                        dados.getUsoProcessador().toString().replace(",", "."),
+                        dados.getUsoMemoria(),
+                        dados.getQtdDiscoEmUso().get(0),
+                        grupoDeDiscos.getDiscos().size() > 1 ? dados.getQtdDiscoEmUso().get(1) : null,
+                        grupoDeDiscos.getDiscos().size() > 2 ? dados.getQtdDiscoEmUso().get(2) : null,
+                        grupoDeDiscos.getDiscos().size() > 3 ? dados.getQtdDiscoEmUso().get(3) : null,
+                        dados.getDataAtual()));
+                System.out.println("DEMOS INSERT NO BANCO.");
+//                try {
+//                    FileInputStream arq = new FileInputStream("C:\\arquivoLog.log");
+//                    
+//                } catch (FileNotFoundException ex) {
+//                    File arquivo = new File("C:\\magna\\backend-swing\\logs", "catatau.txt");
+//                }
             }
         },0, 5000);
     }
@@ -215,46 +228,44 @@ public class PosLogin extends javax.swing.JFrame {
         scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
         scroll.setAutoscrolls(false);
         scroll.getMinimumSize();
-        
+
         window.add(scroll);
         window.setSize(500, 500);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-        
+
         qtdProcessos = grupoDeProcessos.getTotalProcessos();
         qtdThreads = grupoDeProcessos.getTotalThreads();
         cpuEmUso = processador.getUso();
         ramEmUso = memoria.getEmUso();
-        
+
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 info = "<html><p style='width: 300px;'><b>Informações do sistema:</b> " + SO + " x" + sistema.getArquitetura().toString()
-                    + "<br><br>"
-                    + "<b>Informações do hardware:</b>"
-                    + "<br>"
-                    + "RAM total: " + memoria.getTotal().toString()
-                    + "<br>"
-                    + "Informações processador <br>"
-                    + "Frequência do processador: " + String.format("%.2f", Double.valueOf(processador.getFrequencia().toString()))
-                    + "<br>"
-                    + "Quantidade CPUs físicas: " + processador.getNumeroCpusFisicas().toString()
-                    + "<br>"
-                    + "HardDisk: " + grupoDeDiscos.getTamanhoTotal() + " bytes"
-                    + "<br><br>"
-                    + "Processos em tempo real: <br> "
-                    + "<b>CPU: </b>" + String.format("%.2f", processador.getUso()) + "<br>"
-                    + "<b>Memória em uso: </b>" + memoria.getEmUso().toString() + "<br>"
-                    + "<b>Total de processos: </b>" + grupoDeProcessos.getTotalProcessos().toString()
-                    + "<br>"
-                    + "</p></html>";
+                        + "<br><br>"
+                        + "<b>Informações do hardware:</b>"
+                        + "<br>"
+                        + "RAM total: " + memoria.getTotal().toString()
+                        + "<br>"
+                        + "Informações processador <br>"
+                        + "Frequência do processador: " + String.format("%.2f", Double.valueOf(processador.getFrequencia().toString()))
+                        + "<br>"
+                        + "Quantidade CPUs físicas: " + processador.getNumeroCpusFisicas().toString()
+                        + "<br>"
+                        + "HardDisk: " + grupoDeDiscos.getTamanhoTotal() + " bytes"
+                        + "<br><br>"
+                        + "Processos em tempo real: <br> "
+                        + "<b>CPU: </b>" + String.format("%.2f", processador.getUso()) + "<br>"
+                        + "<b>Memória em uso: </b>" + memoria.getEmUso().toString() + "<br>"
+                        + "<b>Total de processos: </b>" + grupoDeProcessos.getTotalProcessos().toString()
+                        + "<br>"
+                        + "</p></html>";
                 textArea.setText(info);
             }
         }, 0, 1000);
     }//GEN-LAST:event_btnVerificarDadosActionPerformed
 
-  
-  
     /**
      * @param args the command line arguments
      */
@@ -281,7 +292,7 @@ public class PosLogin extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PosLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

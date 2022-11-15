@@ -25,6 +25,8 @@ public class Connector {
 
         dataSource.setPassword("#Gfgrupo2");
 
+        System.out.println("CONSEGUIMOS CONECTAR AO BANCO");
+        
         this.connection = new JdbcTemplate(dataSource);
     }
 
