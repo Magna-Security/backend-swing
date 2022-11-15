@@ -159,7 +159,7 @@ public class PosLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         encerrarIsClicked = false;
         
@@ -175,30 +175,39 @@ public class PosLogin extends javax.swing.JFrame {
         ramEmUso = memoria.getEmUso();
 
         for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
-            qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getDisponivel());
+            if (j == grupoDeDiscos.getQuantidadeDeDiscos() - 1) break;
+            qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
+            System.out.println("TESTANDO ARRAY ANTIGO: " + qtdDiscoEmUso.get(j));
         }
         
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                
-                System.out.println("Coletando dados...");
 
                 Date date = new Date();
                 SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 dataFormatada = momento.format(date);
 
                 DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
-
+                Integer max = 0;
+                for (Integer i = 0; i < grupoDeDiscos.getDiscos().size(); i++) {
+                    ++max;
+                }
+                
+                System.out.println(String.format("\nVERIFICANDO ARRAY: "
+                        + "\nDISCO 1: " + dados.getQtdDiscoEmUso().get(0)
+                        + "\nDISCO 2: " + dados.getQtdDiscoEmUso().get(1)
+                        /*+ "DISCO 3: " + dados.getQtdDiscoEmUso().get(2)*/));
+                
                 banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
                 dados.getQtdProcessos(),
                 dados.getQtdThreads(),
                 dados.getUsoProcessador().toString().replace(",", "."),
                 dados.getUsoMemoria(),
                 dados.getQtdDiscoEmUso().get(0),
-                grupoDeDiscos.getDiscos().size() > 1 ? dados.getQtdDiscoEmUso().get(1) : null,
-                grupoDeDiscos.getDiscos().size() > 2 ? dados.getQtdDiscoEmUso().get(2) : null,
-                grupoDeDiscos.getDiscos().size() > 3 ? dados.getQtdDiscoEmUso().get(3) : null,
+                dados.getQtdDiscoEmUso().get(1),
+                dados.getQtdDiscoEmUso().get(2),
+                dados.getQtdDiscoEmUso().get(3),
                 dados.getDataAtual()));
             }
         },0, 5000);
