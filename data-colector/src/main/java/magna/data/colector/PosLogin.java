@@ -5,6 +5,7 @@
 package magna.data.colector;
 
 import javax.swing.JFrame;
+import java.sql.ResultSet;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import com.github.britooo.looca.api.core.Looca;
@@ -17,6 +18,7 @@ import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import com.mysql.cj.log.Log;
 import static java.awt.SystemColor.window;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,8 +27,12 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import org.json.JSONObject;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -159,12 +165,30 @@ public class PosLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void enviarMensagemSlack() throws IOException, InterruptedException {
+        JSONObject json = new JSONObject();
+
+        json.put("text", "IGNORE. Teste. Estou na função PosLogin.enviarMensagemSlack()");
+
+        Slack.enviarMensagem(json);
+    }
+    
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt)  {                                           
         // TODO add your handling code here:
         encerrarIsClicked = false;
         
+        System.out.println("TESTE SELECT: " + this.getMaxCpu(1));
+        
+        System.out.println("Testando Slack");
+        
+        try {
+            enviarMensagemSlack();
+        }
+        catch (Exception e) {
+            
+        }
+        
         txtIniciadoOuEncerrado.setText("Iniciando processo de coleta.");
-
         
         Connector con = new Connector();
         JdbcTemplate banco = con.getConnection();
@@ -177,27 +201,17 @@ public class PosLogin extends javax.swing.JFrame {
         for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
             if (j == grupoDeDiscos.getQuantidadeDeDiscos() - 1) break;
             qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
-            System.out.println("TESTANDO ARRAY ANTIGO: " + qtdDiscoEmUso.get(j));
         }
         
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-
+                
                 Date date = new Date();
                 SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 dataFormatada = momento.format(date);
 
                 DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
-                Integer max = 0;
-                for (Integer i = 0; i < grupoDeDiscos.getDiscos().size(); i++) {
-                    ++max;
-                }
-                
-                System.out.println(String.format("\nVERIFICANDO ARRAY: "
-                        + "\nDISCO 1: " + dados.getQtdDiscoEmUso().get(0)
-                        + "\nDISCO 2: " + dados.getQtdDiscoEmUso().get(1)
-                        /*+ "DISCO 3: " + dados.getQtdDiscoEmUso().get(2)*/));
                 
                 banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
                 dados.getQtdProcessos(),
@@ -209,12 +223,15 @@ public class PosLogin extends javax.swing.JFrame {
                 dados.getQtdDiscoEmUso().get(2),
                 dados.getQtdDiscoEmUso().get(3),
                 dados.getDataAtual()));
+                
+                System.out.println(String.format("[%s] Dados inseridos com sucesso.", dados.getDataAtual().toString()));
             }
         },0, 5000);
     }
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
+        txtIniciadoOuEncerrado.setText("Encerrando o processo...");
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
 
@@ -262,7 +279,17 @@ public class PosLogin extends javax.swing.JFrame {
         }, 0, 1000);
     }//GEN-LAST:event_btnVerificarDadosActionPerformed
 
-  
+    public Double getMaxCpu(Integer servidor) {
+        Connector con = new Connector();
+        JdbcTemplate banco = con.getConnection();
+        
+        String queryFormatada = String.format("SELECT max_utilizacao_cpu FROM Servidor WHERE id_servidor = %d", servidor);
+        System.out.println("query formatada: " + queryFormatada);
+        List<Double> listMaxCpu = banco.queryForList(queryFormatada, Double.class);
+        System.out.println("REGISTROS NA LISTA: " + listMaxCpu.size());
+        Double maxCpu = listMaxCpu.get(0);
+        return maxCpu;
+    }
   
     /**
      * @param args the command line arguments

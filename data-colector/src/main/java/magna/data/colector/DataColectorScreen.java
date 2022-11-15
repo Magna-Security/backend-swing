@@ -13,14 +13,14 @@ import com.github.britooo.looca.api.group.servicos.ServicosGroup;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import static java.awt.SystemColor.window;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-/**
- *
- * @author mathe
- */
 public class DataColectorScreen extends javax.swing.JFrame {
 
     /**
@@ -57,7 +57,11 @@ public class DataColectorScreen extends javax.swing.JFrame {
         btnLogin.setText("Entrar");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+                try {
+                    btnLoginActionPerformed(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(DataColectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -102,28 +106,29 @@ public class DataColectorScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) throws Exception {
         Connector con = new Connector();
         JdbcTemplate banco = con.getConnection();
         
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
-             
-//        List response = banco.queryForList("SELECT * from usuario WHERE email = '" + email + "' and senha = '" + senha + "'");
 
+        try {
+            String queryFormatada = String.format("SELECT nome_usuario FROM Usuario WHERE email = '%s' AND senha = '%s'", email, senha);
         
-//        if (response.size() > 0) {
-//            PosLogin frame = new PosLogin();
-//            frame.setVisible(true);     
-//            this.setVisible(false);
+            List<String> credenciais = banco.query(queryFormatada, new BeanPropertyRowMapper<>(String.class));
 
-        if (email.equals("leo@email.com") && senha.equals("123")) {
-            PosLogin frame = new PosLogin();
-            frame.setVisible(true);     
-            this.setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(this, "Email ou usuário inválidos.");
-        }   
+            if (credenciais.size() <= 0) {
+                JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos");
+            } else {
+                JOptionPane.showMessageDialog(this, "Loginm realizado com sucesso.");
+                PosLogin frame = new PosLogin();
+                frame.setVisible(true);     
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+            throw new Exception("Houve um erro ao realizar o login.");
+        }
     }
 
     /**
