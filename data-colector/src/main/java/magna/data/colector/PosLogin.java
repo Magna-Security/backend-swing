@@ -17,6 +17,7 @@ import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import com.mysql.cj.log.Log;
 import static java.awt.SystemColor.window;
+import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -200,6 +201,8 @@ public class PosLogin extends javax.swing.JFrame {
                 grupoDeDiscos.getDiscos().size() > 2 ? dados.getQtdDiscoEmUso().get(2) : null,
                 grupoDeDiscos.getDiscos().size() > 3 ? dados.getQtdDiscoEmUso().get(3) : null,
                 dados.getDataAtual()));
+                
+//                FileInputStream arq = new FileInputStream("C:\\Users\\guilherme.anastacio\\Documents\\logDoMagna");
             }
         },0, 5000);
 
