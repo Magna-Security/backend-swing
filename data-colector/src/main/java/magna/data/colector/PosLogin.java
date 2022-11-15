@@ -165,10 +165,10 @@ public class PosLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void enviarMensagemSlack() throws IOException, InterruptedException {
+    private void enviarMensagemSlack(String mensagem) throws IOException, InterruptedException {
         JSONObject json = new JSONObject();
 
-        json.put("text", "IGNORE. Teste. Estou na função PosLogin.enviarMensagemSlack()");
+        json.put("text", mensagem);
 
         Slack.enviarMensagem(json);
     }
@@ -180,13 +180,6 @@ public class PosLogin extends javax.swing.JFrame {
         System.out.println("TESTE SELECT: " + this.getMaxCpu(1));
         
         System.out.println("Testando Slack");
-        
-        try {
-            enviarMensagemSlack();
-        }
-        catch (Exception e) {
-            
-        }
         
         txtIniciadoOuEncerrado.setText("Iniciando processo de coleta.");
         
@@ -225,6 +218,26 @@ public class PosLogin extends javax.swing.JFrame {
                 dados.getDataAtual()));
                 
                 System.out.println(String.format("[%s] Dados inseridos com sucesso.", dados.getDataAtual().toString()));
+                
+                if (dados.getUsoProcessador() >= 80.00) {
+                    try {
+                        enviarMensagemSlack("Seu processador atingiu o limite. Aumentando a capacidade.");
+                    } catch (IOException ex) {
+                        Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                if (dados.getUsoMemoria()>= 80.00) {
+                    try {
+                        enviarMensagemSlack("Sua memória RAM atingiu o limite. Aumentando a capacidade.");
+                    } catch (IOException ex) {
+                        Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         },0, 5000);
     }
