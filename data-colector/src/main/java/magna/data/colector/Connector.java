@@ -17,13 +17,13 @@ public class Connector {
     public Connector() {
         BasicDataSource dataSource = new BasicDataSource();
 
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        dataSource.setUrl("jdbc:mysql://localhost:3306/magna");
+        dataSource.setUrl("jdbc:sqlserver://magna-server.database.windows.net:1433;database=magna-db;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
 
-        dataSource.setUsername("root");
+        dataSource.setUsername("magna");
 
-        dataSource.setPassword("trigo1102");
+        dataSource.setPassword("#Gfgrupo2");
 
         this.connection = new JdbcTemplate(dataSource);
     }
