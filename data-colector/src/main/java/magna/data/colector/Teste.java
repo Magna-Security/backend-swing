@@ -4,7 +4,6 @@
  */
 package magna.data.colector;
 
-package magna.data.colector;
 
 
 import com.github.britooo.looca.api.core.Looca;
@@ -54,11 +53,7 @@ public class Teste {
     String dataFormatada = "";
 
    
-    private void enviarDados() {
-
-        
-        Connector con = new Connector();
-        JdbcTemplate banco = con.getConnection();
+    private void enviarDados(JdbcTemplate banco) {
 
         qtdProcessos = grupoDeProcessos.getTotalProcessos();
         qtdThreads = grupoDeProcessos.getTotalThreads();
@@ -102,9 +97,12 @@ public class Teste {
 
     public static void main(String[] args) {
         try {
+            Connector con = new Connector();
+            JdbcTemplate banco = con.getConnection();
+            
             Teste teste = new Teste();
             
-            teste.enviarDados();
+            teste.enviarDados(banco);
             
         } catch (Exception e) {
            

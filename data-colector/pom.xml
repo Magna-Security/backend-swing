@@ -64,7 +64,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>magna.data.colector.DataColectorScreen</mainClass> 
+                            <mainClass>magna.data.colector.Teste</mainClass> 
                         </manifest>
                     </archive>
                 </configuration>
