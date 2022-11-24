@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author AlfaUser
  */
 public class Connector {
-    private JdbcTemplate connection;
+    private final JdbcTemplate connection;
 
     public Connector() {
         BasicDataSource dataSource = new BasicDataSource();
