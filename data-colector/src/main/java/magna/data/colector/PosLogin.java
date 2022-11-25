@@ -22,8 +22,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -206,23 +212,46 @@ public class PosLogin extends javax.swing.JFrame {
                         grupoDeDiscos.getDiscos().size() > 3 ? dados.getQtdDiscoEmUso().get(3) : null,
                         dados.getDataAtual()));
 
+                File arquivo = new File("arquivo.txt");
+
+                Date dataHoraAtual = new Date();
+                String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+
+                if (!arquivo.exists()) {
+                    try {
+                        arquivo.createNewFile();
+                    } catch (IOException ex) {
+                        Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                List<String> lista = new ArrayList<>();
+                lista.add("Fazendo um log simples");
+                lista.add("Usuario Ligou o sistema em: " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
+                        + " às " + (DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalDateTime.now())));
+
                 try {
-                    FileInputStream arq = new FileInputStream("C:\\magna\\backend-swing\\logs\\arquivoLog.log");
-                    DataInputStream lerArq = new DataInputStream(arq);
-
-
-                    Integer processos = dados.getQtdProcessos();
-                    processos = lerArq.readInt();
-//                  dados.setQtdProcessos(qtdProcessos = lerArq.readInt());
-                    
-                      
-                    arq.close();
-                } catch (FileNotFoundException ex) {
-                    File arquivo = new File("C:\\magna\\backend-swing\\logs\\arquivoLog.log");
+                    Files.write(Paths.get(arquivo.getPath()), lista, StandardOpenOption.APPEND);
                 } catch (IOException ex) {
-                    
+                    Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
+//                try {
+//                    FileInputStream arq = new FileInputStream("C:\\magna\\backend-swing\\logs\\arquivoLog.log");
+//                    DataInputStream lerArq = new DataInputStream(arq);
+//
+//
+//                    Integer processos = dados.getQtdProcessos();
+//                    processos = lerArq.readInt();
+//                  dados.setQtdProcessos(qtdProcessos = lerArq.readInt());
+//
+//                      
+//                    arq.close();
+//                } catch (FileNotFoundException ex) {
+//                    File arquivo = new File("C:\\magna\\backend-swing\\logs\\arquivoLog.log");
+//                } catch (IOException ex) {
+//                    
+//                }
+//
 //                FileInputStream arq = new FileInputStream("C:\\Users\\guilherme.anastacio\\Documents\\logDoMagna");
             }
         }, 0, 5000);
