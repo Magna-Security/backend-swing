@@ -184,9 +184,10 @@ public class PosLogin extends javax.swing.JFrame {
                 qtdThreads = grupoDeProcessos.getTotalThreads();
                 cpuEmUso = processador.getUso();
                 ramEmUso = memoria.getEmUso();
-
-                for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
-                    if (j == grupoDeDiscos.getQuantidadeDeDiscos() - 1) break;
+               Integer teste = grupoDeDiscos.getQuantidadeDeDiscos();
+                for (Integer j = 0; j < teste; j++) { 
+                  
+                    
                     qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
                 }
                 
@@ -217,7 +218,7 @@ public class PosLogin extends javax.swing.JFrame {
                 dadosRegistrados.getQtdDiscoEmUso().get(2),
                 dadosRegistrados.getQtdDiscoEmUso().get(3),
                 dadosRegistrados.getDataAtual());
-        System.out.println("SQL: " + sql);
+       
         banco.update(sql);
     }
 
