@@ -4,16 +4,6 @@
  */
 package magna.data.colector;
 
-import com.github.britooo.looca.api.core.Looca;
-import com.github.britooo.looca.api.group.discos.DiscosGroup;
-import com.github.britooo.looca.api.group.memoria.Memoria;
-import com.github.britooo.looca.api.group.processador.Processador;
-import com.github.britooo.looca.api.group.processos.ProcessosGroup;
-import com.github.britooo.looca.api.group.servicos.ServicosGroup;
-import com.github.britooo.looca.api.group.sistema.Sistema;
-import com.github.britooo.looca.api.group.temperatura.Temperatura;
-import static java.awt.SystemColor.window;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -160,6 +150,7 @@ public class DataColectorScreen extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new DataColectorScreen().setVisible(true);
             }

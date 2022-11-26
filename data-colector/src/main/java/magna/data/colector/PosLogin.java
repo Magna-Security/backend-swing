@@ -190,6 +190,8 @@ public class PosLogin extends javax.swing.JFrame {
                     qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
                 }
                 
+                System.out.println("qtdDisco Em Uso: " + qtdDiscoEmUso);
+                
                 Date date = new Date();
                 SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 dataFormatada = momento.format(date);
@@ -205,7 +207,7 @@ public class PosLogin extends javax.swing.JFrame {
     }
 
     public void inserirDados(JdbcTemplate banco, DadosDTO dadosRegistrados) {
-        banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
+        String sql = String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
                 dadosRegistrados.getQtdProcessos(),
                 dadosRegistrados.getQtdThreads(),
                 dadosRegistrados.getUsoProcessador().toString().replace(",", "."),
@@ -214,7 +216,9 @@ public class PosLogin extends javax.swing.JFrame {
                 dadosRegistrados.getQtdDiscoEmUso().get(1),
                 dadosRegistrados.getQtdDiscoEmUso().get(2),
                 dadosRegistrados.getQtdDiscoEmUso().get(3),
-                dadosRegistrados.getDataAtual()));
+                dadosRegistrados.getDataAtual());
+        System.out.println("SQL: " + sql);
+        banco.update(sql);
     }
 
     public void verificarSlack(DadosDTO dadosRegistrados) {
@@ -239,7 +243,7 @@ public class PosLogin extends javax.swing.JFrame {
             }
         }
 
-        if (dadosRegistrados.getUsoMemoria()>= 80.00) {
+        if (dadosRegistrados.getUsoMemoria()>= 95.00) {
             try {
                 enviarMensagemSlack("Sua memória RAM atingiu o limite. Aumentando a capacidade.");
             } catch (IOException ex) {
