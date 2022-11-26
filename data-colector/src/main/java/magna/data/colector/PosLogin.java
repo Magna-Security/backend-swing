@@ -191,8 +191,6 @@ public class PosLogin extends javax.swing.JFrame {
                     qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
                 }
                 
-                System.out.println("qtdDisco Em Uso: " + qtdDiscoEmUso);
-                
                 Date date = new Date();
                 SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 dataFormatada = momento.format(date);
