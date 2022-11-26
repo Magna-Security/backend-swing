@@ -170,7 +170,7 @@ public class PosLogin extends javax.swing.JFrame {
     
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt)  {                                           
         // TODO add your handling code here:
-        encerrarIsClicked = false;
+//        encerrarIsClicked = false;
         txtIniciadoOuEncerrado.setText("Iniciando processo de coleta.");
         
         Connector con = new Connector();
@@ -218,6 +218,17 @@ public class PosLogin extends javax.swing.JFrame {
     }
 
     public void verificarSlack(DadosDTO dadosRegistrados) {
+
+        if (dadosRegistrados.getUsoProcessador() >= 10.00) {
+            try {
+                enviarMensagemSlack("Seu processador está a 10% de utilização. Aumentando a capacidade.");
+            } catch (IOException ex) {
+                Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PosLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         if (dadosRegistrados.getUsoProcessador() >= 80.00) {
             try {
                 enviarMensagemSlack("Seu processador atingiu o limite. Aumentando a capacidade.");
@@ -242,6 +253,7 @@ public class PosLogin extends javax.swing.JFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
         txtIniciadoOuEncerrado.setText("Encerrando o processo...");
+        System.out.println("Encerrando o processo...");
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
 
