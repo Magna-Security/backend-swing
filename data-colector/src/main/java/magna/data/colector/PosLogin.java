@@ -217,7 +217,7 @@ public class PosLogin extends javax.swing.JFrame {
                 dadosRegistrados.getQtdDiscoEmUso().get(2),
                 dadosRegistrados.getQtdDiscoEmUso().get(3),
                 dadosRegistrados.getDataAtual());
-        System.out.println(sql);
+       
         banco.update(sql);
     }
 
