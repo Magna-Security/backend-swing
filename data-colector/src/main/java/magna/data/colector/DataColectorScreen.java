@@ -121,10 +121,10 @@ public class DataColectorScreen extends javax.swing.JFrame {
             if (credenciais.size() <= 0) {
                 JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos");
             } else {
-                JOptionPane.showMessageDialog(this, "Loginm realizado com sucesso");
+                JOptionPane.showMessageDialog(this, "Login realizado com sucesso");
                 PosLogin frame = new PosLogin();
-                frame.setVisible(true);     
                 this.setVisible(false);
+                frame.setVisible(true);
             }
         } catch (Exception e) {
             throw new Exception("Houve um erro ao realizar o login.");
