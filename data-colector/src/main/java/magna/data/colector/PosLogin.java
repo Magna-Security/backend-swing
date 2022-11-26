@@ -186,8 +186,6 @@ public class PosLogin extends javax.swing.JFrame {
                 ramEmUso = memoria.getEmUso();
                Integer teste = grupoDeDiscos.getQuantidadeDeDiscos();
                 for (Integer j = 0; j < teste; j++) { 
-                  
-                    
                     qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
                 }
                 
