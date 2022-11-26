@@ -187,8 +187,7 @@ public class PosLogin extends javax.swing.JFrame {
                Integer teste = grupoDeDiscos.getQuantidadeDeDiscos();
                 for (Integer j = 0; j < teste; j++) { 
                   
-                    System.out.println(grupoDeDiscos.getVolumes().get(j).getTotal());
-                    System.out.println(grupoDeDiscos.getVolumes().get(j).getDisponivel());
+                    
                     qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
                 }
                 
