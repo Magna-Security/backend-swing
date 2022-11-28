@@ -11,7 +11,7 @@ CREATE TABLE Usuario(
     fk_empresa int,
     foreign key (fk_empresa) references Empresa(id_empresa),
     tipo_usuario varchar(50),
-    constraint "chk_tipoUsuario" check(tipo_usuario in("admin", "gerente", "suporte")),
+    constraint "chk_tipoUsuario" check(tipo_usuario in("gerente", "tecnico", "suporte")),
     nome_usuario varchar(50),
     email varchar(50),
     senha varchar(50),

@@ -5,6 +5,7 @@ magna\data\colector\PosLogin$6.class
 magna\data\colector\Connector.class
 magna\data\colector\PosLogin$3.class
 magna\data\colector\PosLogin$2.class
+magna\data\colector\ConnectorMySql.class
 magna\data\colector\PosLogin.class
 magna\data\colector\Slack.class
 magna\data\colector\DataColectorScreen$1.class

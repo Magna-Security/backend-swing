@@ -176,6 +176,9 @@ public class PosLogin extends javax.swing.JFrame {
         Connector con = new Connector();
         JdbcTemplate banco = con.getConnection();
         
+//        ConnectorMySql con2 = new ConnectorMySql();
+//        JdbcTemplate bancoMySql = con2.getConnection();
+        
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -184,10 +187,9 @@ public class PosLogin extends javax.swing.JFrame {
                 qtdThreads = grupoDeProcessos.getTotalThreads();
                 cpuEmUso = processador.getUso();
                 ramEmUso = memoria.getEmUso();
-               Integer teste = grupoDeDiscos.getQuantidadeDeDiscos();
-                for (Integer j = 0; j < teste; j++) { 
-                  
-                    
+                Integer teste = grupoDeDiscos.getQuantidadeDeDiscos();
+                for (Integer j = 0; j <= teste; j++) {
+                    if (j == teste) break;
                     qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
                 }
                 
@@ -197,6 +199,7 @@ public class PosLogin extends javax.swing.JFrame {
 
                 DadosDTO dadosRegistrados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
                 inserirDados(banco, dadosRegistrados);
+//                inserirDadosMySql(bancoMySql, dadosRegistrados);
 
                 System.out.println(String.format("[%s] Dados inseridos com sucesso.", dadosRegistrados.getDataAtual().toString()));
 
@@ -220,6 +223,21 @@ public class PosLogin extends javax.swing.JFrame {
         banco.update(sql);
     }
 
+    public void inserirDadosMySql(JdbcTemplate banco, DadosDTO dadosRegistrados) {
+        String sql = String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
+                dadosRegistrados.getQtdProcessos(),
+                dadosRegistrados.getQtdThreads(),
+                dadosRegistrados.getUsoProcessador().toString().replace(",", "."),
+                dadosRegistrados.getUsoMemoria(),
+                dadosRegistrados.getQtdDiscoEmUso().get(0),
+                dadosRegistrados.getQtdDiscoEmUso().get(1),
+                dadosRegistrados.getQtdDiscoEmUso().get(2),
+                dadosRegistrados.getQtdDiscoEmUso().get(3),
+                dadosRegistrados.getDataAtual());
+       
+        banco.update(sql);
+    }
+    
     public void verificarSlack(DadosDTO dadosRegistrados) {
 
         if (dadosRegistrados.getUsoProcessador() >= 10.00) {
