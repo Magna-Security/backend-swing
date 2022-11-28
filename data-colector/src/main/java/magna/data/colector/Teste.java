@@ -59,11 +59,9 @@ public class Teste {
         qtdThreads = grupoDeProcessos.getTotalThreads();
         cpuEmUso = processador.getUso();
         ramEmUso = memoria.getEmUso();
-
-        for (Integer j = 0; j < grupoDeDiscos.getQuantidadeDeDiscos(); j++) {
-            if (j == grupoDeDiscos.getQuantidadeDeDiscos() - 1) {
-                break;
-            }
+ Integer teste = grupoDeDiscos.getQuantidadeDeDiscos();
+        for (Integer j = 0; j < teste; j++) {
+            
             qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
         }
 
