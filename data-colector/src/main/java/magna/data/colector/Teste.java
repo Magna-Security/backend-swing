@@ -98,10 +98,8 @@ public class Teste {
     public static void main(String[] args) {
         try {
             Connector con = new Connector();
-            ConnectorMySql con2 = new ConnectorMySql();
             
             JdbcTemplate banco = con.getConnection();
-            JdbcTemplate bancoMySql = con2.getConnection();
             
             Teste teste = new Teste();
             

@@ -21,9 +21,9 @@ public class Connector {
 
         dataSource.setUrl("jdbc:sqlserver://magna-server.database.windows.net:1433;database=magna-db;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
 
-        dataSource.setUsername("root");
+        dataSource.setUsername("magna");
 
-        dataSource.setPassword("magna123");
+        dataSource.setPassword("#Gfgrupo2");
 
         this.connection = new JdbcTemplate(dataSource);
     }
