@@ -53,7 +53,7 @@ public class Teste {
     String dataFormatada = "";
 
    
-    private void enviarDados(JdbcTemplate banco, JdbcTemplate banco2) {
+    private void enviarDados(JdbcTemplate banco) {
 
         qtdProcessos = grupoDeProcessos.getTotalProcessos();
         qtdThreads = grupoDeProcessos.getTotalThreads();
@@ -76,17 +76,6 @@ public class Teste {
                 DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
 
                 banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
-                        dados.getQtdProcessos(),
-                        dados.getQtdThreads(),
-                        dados.getUsoProcessador().toString().replace(",", "."),
-                        dados.getUsoMemoria(),
-                        dados.getQtdDiscoEmUso().get(0),
-                        dados.getQtdDiscoEmUso().get(1),
-                        dados.getQtdDiscoEmUso().get(2),
-                        dados.getQtdDiscoEmUso().get(3),
-                        dados.getDataAtual()));
-                
-                banco2.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
                         dados.getQtdProcessos(),
                         dados.getQtdThreads(),
                         dados.getUsoProcessador().toString().replace(",", "."),
