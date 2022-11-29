@@ -204,7 +204,7 @@ public class PosLogin extends javax.swing.JFrame {
     }
 
     public void inserirDados(JdbcTemplate banco, DadosDTO dadosRegistrados) {
-        String sql = String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(4, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
+        String sql = String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(5, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
                 dadosRegistrados.getQtdProcessos(),
                 dadosRegistrados.getQtdThreads(),
                 dadosRegistrados.getUsoProcessador().toString().replace(",", "."),
