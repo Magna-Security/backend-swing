@@ -19,7 +19,7 @@ public class ConnectorMySql {
 
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-        dataSource.setUrl("jdbc:sqlserver://meubanco.database.windows.net/magna");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/magna");
 
         dataSource.setUsername("root");
 

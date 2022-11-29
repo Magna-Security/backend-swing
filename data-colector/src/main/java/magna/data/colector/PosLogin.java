@@ -176,8 +176,8 @@ public class PosLogin extends javax.swing.JFrame {
         Connector con = new Connector();
         JdbcTemplate banco = con.getConnection();
         
-//        ConnectorMySql con2 = new ConnectorMySql();
-//        JdbcTemplate bancoMySql = con2.getConnection();
+        ConnectorMySql con2 = new ConnectorMySql();
+        JdbcTemplate bancoMySql = con2.getConnection();
         
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -199,7 +199,7 @@ public class PosLogin extends javax.swing.JFrame {
 
                 DadosDTO dadosRegistrados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
                 inserirDados(banco, dadosRegistrados);
-//                inserirDadosMySql(bancoMySql, dadosRegistrados);
+                inserirDadosMySql(bancoMySql, dadosRegistrados);
 
                 System.out.println(String.format("[%s] Dados inseridos com sucesso.", dadosRegistrados.getDataAtual().toString()));
 
