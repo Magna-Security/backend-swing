@@ -1,5 +1,7 @@
+magna\data\colector\Teste$2.class
+magna\data\colector\DadosDTO.class
 magna\data\colector\Teste.class
 magna\data\colector\Connector.class
-magna\data\colector\DadosDTO.class
+magna\data\colector\ConnectorMySql.class
 magna\data\colector\Teste$1.class
 magna\data\colector\Slack.class
