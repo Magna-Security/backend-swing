@@ -116,7 +116,7 @@ public class Teste {
             
             Teste teste = new Teste();
             
-            teste.enviarDados(banco, bancoMySql);
+            teste.enviarDados(banco);
 
             
         } catch (Exception e) {
