@@ -21,9 +21,9 @@ public class ConnectorMySql {
 
         dataSource.setUrl("jdbc:mysql://localhost:3306/magna");
 
-        dataSource.setUsername("magna");
+        dataSource.setUsername("root");
 
-        dataSource.setPassword("magna123");
+        dataSource.setPassword("trigo1102");
 
         this.connection = new JdbcTemplate(dataSource);
     }
