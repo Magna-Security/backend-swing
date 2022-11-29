@@ -53,7 +53,7 @@ public class Teste {
     String dataFormatada = "";
 
    
-    private void enviarDados(JdbcTemplate banco) {
+    private void enviarDados(JdbcTemplate banco, JdbcTemplate banco2) {
 
         qtdProcessos = grupoDeProcessos.getTotalProcessos();
         qtdThreads = grupoDeProcessos.getTotalThreads();
@@ -76,6 +76,17 @@ public class Teste {
                 DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
 
                 banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
+                        dados.getQtdProcessos(),
+                        dados.getQtdThreads(),
+                        dados.getUsoProcessador().toString().replace(",", "."),
+                        dados.getUsoMemoria(),
+                        dados.getQtdDiscoEmUso().get(0),
+                        dados.getQtdDiscoEmUso().get(1),
+                        dados.getQtdDiscoEmUso().get(2),
+                        dados.getQtdDiscoEmUso().get(3),
+                        dados.getDataAtual()));
+                
+                banco2.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
                         dados.getQtdProcessos(),
                         dados.getQtdThreads(),
                         dados.getUsoProcessador().toString().replace(",", "."),
@@ -93,58 +104,19 @@ public class Teste {
 
     }
     
-    private void enviarDadosMySql(JdbcTemplate banco) {
-
-        qtdProcessos = grupoDeProcessos.getTotalProcessos();
-        qtdThreads = grupoDeProcessos.getTotalThreads();
-        cpuEmUso = processador.getUso();
-        ramEmUso = memoria.getEmUso();
-        Integer teste = grupoDeDiscos.getQuantidadeDeDiscos();
-        for (Integer j = 0; j < teste; j++) {
-            
-            qtdDiscoEmUso.add(grupoDeDiscos.getVolumes().get(j).getTotal() - grupoDeDiscos.getVolumes().get(j).getDisponivel());
-        }
-
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-
-                Date date = new Date();
-                SimpleDateFormat momento = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                dataFormatada = momento.format(date);
-
-                DadosDTO dados = new DadosDTO(qtdProcessos, qtdThreads, cpuEmUso, ramEmUso, qtdDiscoEmUso, dataFormatada);
-
-                banco.update(String.format("INSERT INTO RegistroServer(fk_servidor, qtd_processos, qtd_threads, cpu_em_uso, ram_em_uso, disco_em_uso_1, disco_em_uso_2, disco_em_uso_3, disco_em_uso_4, dt_registro) values(1, %d, %d, %s, %d, %d, %d, %d, %d, '%s')",
-                        dados.getQtdProcessos(),
-                        dados.getQtdThreads(),
-                        dados.getUsoProcessador().toString().replace(",", "."),
-                        dados.getUsoMemoria(),
-                        dados.getQtdDiscoEmUso().get(0),
-                        dados.getQtdDiscoEmUso().get(1),
-                        dados.getQtdDiscoEmUso().get(2),
-                        dados.getQtdDiscoEmUso().get(3),
-                        dados.getDataAtual()));
-
-                System.out.println(String.format("[%s] Dados inseridos com sucesso.", dados.getDataAtual()));
-
-            }
-        }, 0, 5000);
-
-    }
+    
 
     public static void main(String[] args) {
         try {
             Connector con = new Connector();
-            Connector con2 = new Connector();
+            ConnectorMySql con2 = new ConnectorMySql();
             
             JdbcTemplate banco = con.getConnection();
-            JdbcTemplate bancoMySql = con.getConnection();
+            JdbcTemplate bancoMySql = con2.getConnection();
             
             Teste teste = new Teste();
             
-            teste.enviarDados(banco);
-            teste.enviarDadosMySql(bancoMySql);
+            teste.enviarDados(banco, bancoMySql);
 
             
         } catch (Exception e) {
