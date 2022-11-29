@@ -214,9 +214,9 @@ public class PosLogin extends javax.swing.JFrame {
 
                 File arquivo = new File("arquivo.txt");
 
-                Date dataHoraAtual = new Date();
-                String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
-
+                Date data = new Date();
+//                String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'às' HH:mm:ss");
                 if (!arquivo.exists()) {
                     try {
                         arquivo.createNewFile();
@@ -225,9 +225,7 @@ public class PosLogin extends javax.swing.JFrame {
                     }
                 }
                 List<String> lista = new ArrayList<>();
-                lista.add("Fazendo um log simples");
-                lista.add("Usuario Ligou o sistema em: " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
-                        + " às " + (DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalDateTime.now())));
+                lista.add(sdf.format(data) + " coletando dados");
 
                 try {
                     Files.write(Paths.get(arquivo.getPath()), lista, StandardOpenOption.APPEND);
