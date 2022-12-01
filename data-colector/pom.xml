@@ -44,6 +44,11 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>11.2.0.jre11</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20220924</version>
+        </dependency>
 
     </dependencies>
     

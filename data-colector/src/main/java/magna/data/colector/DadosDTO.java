@@ -63,6 +63,10 @@ public class DadosDTO {
     }
 
     public List<Long> getQtdDiscoEmUso() {
+        while (qtdDiscoEmUso.size() < 4) {
+//            qtdDiscoEmUso.add(0L);
+            qtdDiscoEmUso.add(null);
+        }
         return qtdDiscoEmUso;
     }
 
